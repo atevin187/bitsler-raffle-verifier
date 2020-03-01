@@ -1,13 +1,14 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-const rawData = fs.readFileSync('./data.json');
-const jsonData = JSON.parse(rawData);
+const jsonData = JSON.parse(fs.readFileSync('./data.json'));
 
-const blockHash = crypto.createHash('sha256').update(jsonData.block).digest('hex');
-const raffleNumber = parseInt(blockHash.slice(0, 7), 16);
+const raffleHash = crypto.createHash('sha256').update(jsonData.block).digest('hex');
+const raffleNumber = parseInt(raffleHash.slice(0, 7), 16);
 
-console.log('Raffle Number: ' + raffleNumber + '\n');
+console.log('Block hash:', jsonData.block);
+console.log('Raffle hash:', raffleHash);
+console.log('Raffle Number:', raffleNumber, '\n');
 
 function playerClosestNumber(player, tickets, number) {
     let closestNumber = 0;
